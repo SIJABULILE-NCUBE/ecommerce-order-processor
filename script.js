@@ -5,7 +5,7 @@
  * ============================================================
  *
  * How the code is organised:
- * 1.The raw (messy) order dat 
+ * 1.The raw (messy) order data
  * 2.Small helper functions,grouped by the built-in object they use (String,Number/Math,Date,RegExp)
  * 3.processOrder(): turns one messy order into a clean one using those helpers
  * 4.Render functions: one per section of the page
@@ -233,8 +233,8 @@ function badge(text, colour) {
   const colours = {
     green: "bg-emerald-100 text-emerald-700",
     red: "bg-red-100 text-red-700",
-    blue: "bg-indigo-100 text-indigo-700",
-    amber: "bg-amber-100 text-amber-700",
+    blue: "bg-black text-[#D4AF37]",
+    amber: "bg-[#D4AF37] text-black",
     slate: "bg-slate-200 text-slate-700",
   };
   return `<span class="inline-block text-xs font-medium px-2 py-0.5 rounded-full ${colours[colour]}">${escapeHtml(text)}</span>`;
@@ -242,7 +242,7 @@ function badge(text, colour) {
 
 function statCard(label, value, detail = "") {
   return `
-    <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
+    <div class="bg-[#FFFFF0] border border-[#D4AF37]/50 rounded-lg p-4">
       <p class="text-xs uppercase tracking-wide text-slate-500">${escapeHtml(label)}</p>
       <p class="text-lg font-bold mt-1">${escapeHtml(value)}</p>
       ${detail ? `<p class="text-xs text-slate-500 mt-1">${escapeHtml(detail)}</p>` : ""}
@@ -265,7 +265,7 @@ function renderOrders() {
   const rows = cleanOrders.map((order) => {
     const nameChanged = order.rawName !== order.customerName;
     return `
-      <tr class="hover:bg-slate-50 align-top">
+      <tr class="hover:bg-[#FFFFF0] align-top">
         <td class="px-3 py-3 whitespace-nowrap">
           <p class="font-mono">${escapeHtml(order.orderId)}</p>
           ${order.orderIdValid ? badge("valid ID","green") : badge("invalid ID","red")}
@@ -285,7 +285,7 @@ function renderOrders() {
         <td class="px-3 py-3 text-right whitespace-nowrap">
           <p class="font-semibold">${formatRand(order.price)}</p>
           <p class="text-xs text-slate-500">+ VAT ${formatRand(order.vat)}</p>
-          ${order.discount > 0 ? `<p class="text-xs text-emerald-600">10% off: -${formatRand(order.discount)}</p>` : ""}
+          ${order.discount > 0 ? `<p class="text-xs font-medium text-[#9A7B1C]">10% off: -${formatRand(order.discount)}</p>` : ""}
         </td>
         <td class="px-3 py-3 whitespace-nowrap">
           <p>${formatReadableDate(order.date)}</p>
@@ -299,8 +299,8 @@ function renderOrders() {
   document.getElementById("ordersCount").textContent = `Showing all ${cleanOrders.length} orders,sorted ${sortNewestFirst ? "newest" : "oldest"} first.`;
 
   // Highlight whichever sort button is active.
-  const active = "bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-3 py-2 rounded-lg";
-  const inactive = "bg-slate-200 hover:bg-slate-300 text-sm px-3 py-2 rounded-lg";
+  const active = "bg-black hover:bg-neutral-800 text-[#D4AF37] text-sm px-3 py-2 rounded-lg";
+  const inactive = "bg-[#F3EBD3] hover:bg-[#E8DCB5] text-black text-sm px-3 py-2 rounded-lg";
   document.getElementById("sortNewestBtn").className = sortNewestFirst ? active : inactive;
   document.getElementById("sortOldestBtn").className = sortNewestFirst ? inactive : active;
 }
@@ -380,7 +380,7 @@ function lookUpProduct() {
 
   const details = productMap.get(matchingKey);
   resultBox.innerHTML = `
-    <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 space-y-1">
+    <div class="bg-[#FFFFF0] border border-[#D4AF37] rounded-lg p-4 space-y-1">
       <p class="font-semibold text-base">${escapeHtml(matchingKey)}</p>
       <p>Price: <span class="font-medium">${formatRand(details.price)}</span> (incl.VAT ${formatRand(details.price + calculateVat(details.price))})</p>
       <p>Category: ${badge(details.category,"blue")}</p>
