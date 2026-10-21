@@ -30,18 +30,18 @@
 // This data is messy ON PURPOSE: extra spaces,random capitals,invalid emails,a price stored as text
 // and one badly formatted order ID.The rest of the app has to clean all of it.
 const orders = [
-  { orderId: "ORD-0001", customerName: "  thabo   mokoena ", email: " Thabo.Mokoena@Gmail.com ", product: "Wireless Headphones", category: "Electronics", price: 1299.99, orderDate: "2026-10-18" },
-  { orderId: "ORD-0002", customerName: "LERATO DLAMINI", email: "lerato.dlamini@gmail", product: "Running Shoes", category: "Sportswear", price: 899.5, orderDate: "2026-10-05" },
-  { orderId: "ORD-0003", customerName: "sipho nkosi", email: "SIPHO@outlook.com", product: "Coffee Maker", category: "Home", price: 749, orderDate: "2026-09-12" },
-  { orderId: "ORD-0004", customerName: "  aYanda   zulu", email: "ayanda.zulu@yahoo.co.za", product: "Smart Watch", category: "Electronics", price: 2499.95, orderDate: "2026-10-20" },
-  { orderId: "ORD-0005", customerName: "naledi van wyk  ", email: "naledi vanwyk@mail.com", product: "Yoga Mat", category: "Sportswear", price: 349.9, orderDate: "2026-08-28" },
-  { orderId: "ORD-0006", customerName: "Kagiso Molefe", email: "kagiso.molefe@icloud.com", product: "Desk Lamp", category: "Home", price: "289.99", orderDate: "2026-10-01" },
-  { orderId: "ORD-0007", customerName: "zanele   KHUMALO", email: "  zanele.k@webmail.co.za", product: "Bluetooth Speaker", category: "Electronics", price: 1099, orderDate: "2026-07-15" },
-  { orderId: "ORD-0008", customerName: "michael  smith", email: "michael.smith@gmail.com", product: "Novel: The Long Road", category: "Books", price: 199.99, orderDate: "2026-10-10" },
-  { orderId: "ORD-0009", customerName: " PRIYA naidoo", email: "Priya.Naidoo@Company.CO.ZA", product: "Cookbook", category: "Books", price: 425.5, orderDate: "2026-09-25" },
-  { orderId: "ORD-0010", customerName: "bongani   sithole", email: "bongani@sithole@mail.com", product: "Gaming Mouse", category: "Electronics", price: 649.0, orderDate: "2026-10-14" },
-  { orderId: "ORD11", customerName: "  anele  mthembu ", email: "anele.mthembu@gmail.com", product: "Wireless Headphones", category: "Electronics", price: 1299.99, orderDate: "2026-06-30" },
-  { orderId: "ORD-0012", customerName: "emma o'connor", email: "EMMA.OCONNOR@mail.com", product: "Throw Blanket", category: "Home", price: 529.75, orderDate: "2026-10-16" },
+  { orderId: "ORD-0001", customerName: "  sijabulile   ncube ", email: " Sijabulile.Ncube@Melsoft.co.za ", product: "Wireless Headphones", category: "Electronics", price: 1299.99, orderDate: "2026-10-18" },
+  { orderId: "ORD-0002", customerName: "BAFANA NDLOVU", email: "bafana.ndlovu@melsoft", product: "Running Shoes", category: "Sportswear", price: 899.5, orderDate: "2026-10-05" },
+  { orderId: "ORD-0003", customerName: "owethu jezile", email: "OWETHU.JEZILE@melsoft.co.za", product: "Coffee Maker", category: "Home", price: 749, orderDate: "2026-09-12" },
+  { orderId: "ORD-0004", customerName: "  mHlengi   ngwenya", email: "mhlengi.ngwenya@melsoft.co.za", product: "Smart Watch", category: "Electronics", price: 2499.95, orderDate: "2026-10-20" },
+  { orderId: "ORD-0005", customerName: "mandla junior  ", email: "mandla junior@melsoft.co.za", product: "Yoga Mat", category: "Sportswear", price: 349.9, orderDate: "2026-08-28" },
+  { orderId: "ORD-0006", customerName: "Ntokozo Prnce", email: "ntokozo.prnce@melsoft.co.za", product: "Desk Lamp", category: "Home", price: "289.99", orderDate: "2026-10-01" },
+  { orderId: "ORD-0007", customerName: "thami   SITHOLE", email: "  thami.sithole@melsoft.co.za", product: "Bluetooth Speaker", category: "Electronics", price: 1099, orderDate: "2026-07-15" },
+  { orderId: "ORD-0008", customerName: "bao  kekana", email: "bao.kekana@melsoft.co.za", product: "Novel: The Long Road", category: "Books", price: 199.99, orderDate: "2026-10-10" },
+  { orderId: "ORD-0009", customerName: " LESEDI modikwe", email: "Lesedi.Modikwe@Melsoft.CO.ZA", product: "Cookbook", category: "Books", price: 425.5, orderDate: "2026-09-25" },
+  { orderId: "ORD-0010", customerName: "qiyaam   moodley", email: "qiyaam@moodley@melsoft.co.za", product: "Gaming Mouse", category: "Electronics", price: 649.0, orderDate: "2026-10-14" },
+  { orderId: "ORD11", customerName: "  joy  molomo ", email: "joy.molomo@melsoft.co.za", product: "Wireless Headphones", category: "Electronics", price: 1299.99, orderDate: "2026-06-30" },
+  { orderId: "ORD-0012", customerName: "galaletsang modise", email: "GALALETSANG.MODISE@melsoft.co.za", product: "Throw Blanket", category: "Home", price: 529.75, orderDate: "2026-10-16" },
 ];
 
 // Settings in one place so they're easy to change.
@@ -59,7 +59,7 @@ let sortNewestFirst = true;
 // ============================================================
 
 // Removes spaces at the start and end with trim(),then squashes any run of spaces in the middle into one.
-// " thabo   mokoena " becomes "thabo mokoena".
+// " sijabulile   ncube " becomes "sijabulile ncube".
 function removeExtraSpaces(text) {
   return String(text).trim().replace(/\s+/g, " ");
 }
@@ -174,7 +174,7 @@ function describeDaysAgo(days) {
 // ============================================================
 
 // Email: something without spaces or @,then one @,then a domain with at least one dot and a 2+ letter ending.
-// It catches "lerato.dlamini@gmail" (no ending),"naledi vanwyk@mail.com" (space) and "bongani@sithole@mail.com" (two @).
+// It catches "bafana.ndlovu@melsoft" (no ending),"mandla junior@melsoft.co.za" (space) and "qiyaam@moodley@melsoft.co.za" (two @).
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
 
 // Order ID: exactly "ORD-" followed by 4 digits,for example ORD-0001."ORD11" fails.
