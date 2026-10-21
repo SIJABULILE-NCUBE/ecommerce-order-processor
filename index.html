@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>E-Commerce Order Processor</title>
+    <!-- Tailwind CSS (Play CDN).All styling in this project comes from Tailwind classes.-->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-slate-100 text-slate-800 min-h-screen">
+    <!-- ===== HEADER ===== -->
+    <header class="bg-indigo-700 text-white shadow">
+      <div class="max-w-7xl mx-auto px-4 py-6">
+        <h1 class="text-2xl sm:text-3xl font-bold">E-Commerce Order Processor</h1>
+        <p class="text-indigo-100 mt-1">Clean,analyse and report on your store's orders,all in the browser.</p>
+        <nav class="mt-4 flex flex-wrap gap-2 text-sm">
+          <a href="#orders" class="bg-indigo-600 hover:bg-indigo-500 px-3 py-1 rounded-full">Orders</a>
+          <a href="#search" class="bg-indigo-600 hover:bg-indigo-500 px-3 py-1 rounded-full">Search / Filter</a>
+          <a href="#statistics" class="bg-indigo-600 hover:bg-indigo-500 px-3 py-1 rounded-full">Statistics</a>
+          <a href="#categories" class="bg-indigo-600 hover:bg-indigo-500 px-3 py-1 rounded-full">Categories</a>
+          <a href="#lookup" class="bg-indigo-600 hover:bg-indigo-500 px-3 py-1 rounded-full">Product Lookup</a>
+          <a href="#data" class="bg-indigo-600 hover:bg-indigo-500 px-3 py-1 rounded-full">Data Processing</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 space-y-8">
+      <!-- ===== STATISTICS (Challenge 9) ===== -->
+      <section id="statistics" class="bg-white rounded-xl shadow p-6">
+        <h2 class="text-xl font-semibold mb-1">Statistics</h2>
+        <p class="text-sm text-slate-500 mb-4">Calculated live from the dataset.These update automatically after a JSON import.</p>
+        <div id="statsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4"></div>
+        <h3 class="font-semibold mt-6 mb-2">Orders per category</h3>
+        <div id="categoryCounts" class="flex flex-wrap gap-2"></div>
+      </section>
+
+      <!-- ===== ORDERS (Challenges 0 to 3 and 8) ===== -->
+      <section id="orders" class="bg-white rounded-xl shadow p-6">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div>
+            <h2 class="text-xl font-semibold">Orders</h2>
+            <p class="text-sm text-slate-500">Names and emails are cleaned automatically.Grey text shows the original messy value.</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button id="sortNewestBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-3 py-2 rounded-lg">Sort: newest first</button>
+            <button id="sortOldestBtn" class="bg-slate-200 hover:bg-slate-300 text-sm px-3 py-2 rounded-lg">Sort: oldest first</button>
+          </div>
+        </div>
+        <p id="ordersCount" class="text-sm text-slate-600 mb-2"></p>
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-sm">
+            <thead class="bg-slate-50 text-left text-slate-600">
+              <tr>
+                <th class="px-3 py-2">Order ID</th>
+                <th class="px-3 py-2">Customer</th>
+                <th class="px-3 py-2">Email</th>
+                <th class="px-3 py-2">Product</th>
+                <th class="px-3 py-2">Category</th>
+                <th class="px-3 py-2 text-right">Price</th>
+                <th class="px-3 py-2">Order Date</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== SEARCH / FILTER (Challenges 4 and 5) ===== -->
+      <section id="search" class="bg-white rounded-xl shadow p-6">
+        <h2 class="text-xl font-semibold mb-4">Search / Filter</h2>
+
+        <div class="grid md:grid-cols-3 gap-4">
+          <!-- find() -->
+          <div class="border border-slate-200 rounded-lg p-4">
+            <h3 class="font-semibold mb-2">Find an order</h3>
+            <label for="searchInput" class="text-sm text-slate-600">Order ID or customer name</label>
+            <input id="searchInput" type="text" placeholder="e.g.ORD-0003 or thabo" class="mt-1 w-full border border-slate-300 rounded-lg px-3 py-2" />
+            <button id="findBtn" class="mt-3 w-full bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-lg">Find</button>
+          </div>
+
+          <!-- filter() by category and price -->
+          <div class="border border-slate-200 rounded-lg p-4">
+            <h3 class="font-semibold mb-2">Filter orders</h3>
+            <label for="categorySelect" class="text-sm text-slate-600">Category</label>
+            <select id="categorySelect" class="mt-1 w-full border border-slate-300 rounded-lg px-3 py-2"></select>
+            <div class="grid grid-cols-2 gap-2 mt-2">
+              <div>
+                <label for="minPrice" class="text-sm text-slate-600">Min price (R)</label>
+                <input id="minPrice" type="number" min="0" placeholder="0" class="mt-1 w-full border border-slate-300 rounded-lg px-3 py-2" />
+              </div>
+              <div>
+                <label for="maxPrice" class="text-sm text-slate-600">Max price (R)</label>
+                <input id="maxPrice" type="number" min="0" placeholder="Any" class="mt-1 w-full border border-slate-300 rounded-lg px-3 py-2" />
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 mt-3">
+              <button id="filterBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-lg">Apply filter</button>
+              <button id="resetFilterBtn" class="bg-slate-200 hover:bg-slate-300 px-3 py-2 rounded-lg">Reset</button>
+            </div>
+          </div>
+
+          <!-- map(),some(),every(),reduce() -->
+          <div class="border border-slate-200 rounded-lg p-4">
+            <h3 class="font-semibold mb-2">Analyse orders</h3>
+            <div class="grid gap-2">
+              <button id="vatListBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-lg text-sm">Prices incl.15% VAT (map)</button>
+              <button id="anyOverBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-lg text-sm">Any order over R1,000? (some)</button>
+              <button id="allValidBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-lg text-sm">All prices valid? (every)</button>
+              <button id="totalBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-lg text-sm">Total value (reduce)</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="searchResults" class="mt-6 bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm">
+          <p class="text-slate-500">Results will appear here.</p>
+        </div>
+      </section>
+
+      <div class="grid lg:grid-cols-2 gap-8">
+        <!-- ===== CATEGORIES (Challenge 5) ===== -->
+        <section id="categories" class="bg-white rounded-xl shadow p-6">
+          <h2 class="text-xl font-semibold mb-1">Categories</h2>
+          <p class="text-sm text-slate-500 mb-4">Built from a Set,so each category appears only once.</p>
+          <div id="categoryList" class="flex flex-wrap gap-2"></div>
+        </section>
+
+        <!-- ===== PRODUCT LOOKUP (Challenge 6) ===== -->
+        <section id="lookup" class="bg-white rounded-xl shadow p-6">
+          <h2 class="text-xl font-semibold mb-1">Product Lookup</h2>
+          <p id="productCount" class="text-sm text-slate-500 mb-4"></p>
+          <label for="productInput" class="text-sm text-slate-600">Product name</label>
+          <div class="flex gap-2 mt-1">
+            <input id="productInput" list="productOptions" type="text" placeholder="Start typing a product..." class="flex-1 border border-slate-300 rounded-lg px-3 py-2" />
+            <button id="lookupBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg">Look up</button>
+          </div>
+          <datalist id="productOptions"></datalist>
+          <div id="lookupResult" class="mt-4 text-sm"></div>
+        </section>
+      </div>
+
+      <!-- ===== DATA PROCESSING (Challenges 7 and 8) ===== -->
+      <section id="data" class="bg-white rounded-xl shadow p-6">
+        <h2 class="text-xl font-semibold mb-4">Data Processing</h2>
+
+        <div class="grid lg:grid-cols-2 gap-6">
+          <!-- JSON export -->
+          <div>
+            <h3 class="font-semibold mb-2">Export orders (JSON.stringify)</h3>
+            <textarea id="exportOutput" readonly rows="12" class="w-full font-mono text-xs border border-slate-300 rounded-lg p-3 bg-slate-50"></textarea>
+          </div>
+
+          <!-- JSON import -->
+          <div>
+            <h3 class="font-semibold mb-2">Import orders (JSON.parse)</h3>
+            <textarea id="importInput" rows="12" placeholder='Paste one order or an array of orders,e.g.[{"orderId":"ORD-0020","customerName":"neo  dube","email":"NEO@shop.co.za","product":"Desk Lamp","category":"Home","price":349.5,"orderDate":"2026-10-20"}]' class="w-full font-mono text-xs border border-slate-300 rounded-lg p-3"></textarea>
+            <div class="flex flex-wrap gap-2 mt-2">
+              <button id="importBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg">Import orders</button>
+              <button id="sampleBtn" class="bg-slate-200 hover:bg-slate-300 px-4 py-2 rounded-lg">Paste a sample order</button>
+            </div>
+            <div id="importMessage" class="mt-2 text-sm"></div>
+          </div>
+        </div>
+
+        <!-- RegExp validation tool -->
+        <div class="mt-8 border-t border-slate-200 pt-6">
+          <h3 class="font-semibold mb-2">Validation tool (RegExp)</h3>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <select id="validationType" class="border border-slate-300 rounded-lg px-3 py-2">
+              <option value="email">Email address</option>
+              <option value="orderId">Order ID (ORD-0000)</option>
+            </select>
+            <input id="validationInput" type="text" placeholder="Type a value to test" class="flex-1 border border-slate-300 rounded-lg px-3 py-2" />
+            <button id="validateBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg">Validate</button>
+          </div>
+          <div id="validationResult" class="mt-3 text-sm"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="text-center text-sm text-slate-500 py-6">E-Commerce Order Processor | HTML,Tailwind CSS and JavaScript</footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
